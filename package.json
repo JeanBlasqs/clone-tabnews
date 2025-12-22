@@ -4,8 +4,12 @@
   "description": "implementação do tabsnews para o curso.dev",
   "main": "index.js",
   "scripts": {
-  "dev":"next dev"
-  },
+  "dev": "next dev",
+  "build": "next build",
+  "start": "next start",
+  "vercel-build": "next build"
+  }
+,
   "author": "",
   "license": "MIT",
   "dependencies": {
