@@ -1,38 +1,48 @@
 import database from "infra/database.js";
-
+import { InternalServerError } from "infra/errors.js";
 async function status(request, response) {
-  const updatedAt = new Date().toISOString();
+  try {
+    const updatedAt = new Date().toISOString();
 
-  const databaseVersionResult = await database.query("SHOW server_version;");
-  const databaseVersionValue = databaseVersionResult.rows[0].server_version;
+    const databaseVersionResult = await database.query("SHOW server_version;");
+    const databaseVersionValue = databaseVersionResult.rows[0].server_version;
 
-  const databaseMaxConnectionResult = await database.query(
-    "SHOW max_connections;",
-  );
-  const databaseMaxConnectionsValue =
-    databaseMaxConnectionResult.rows[0].max_connections;
+    const databaseMaxConnectionResult = await database.query(
+      "SHOW max_connections;",
+    );
+    const databaseMaxConnectionsValue =
+      databaseMaxConnectionResult.rows[0].max_connections;
 
-  const databaseName = process.env.POSTGRES_DB;
+    const databaseName = process.env.POSTGRES_DB;
 
-  const databaseOpenedConnectionResult = await database.query({
-    text: "SELECT count (*)::int FROM pg_stat_activity where datname = $1;",
-    values: [databaseName],
-  });
-  const databaseOpenedConnectionValue =
-    databaseOpenedConnectionResult.rows[0].count;
+    const databaseOpenedConnectionResult = await database.query({
+      text: "SELECT count (*)::int FROM pg_stat_activity where datname = $1;",
+      values: [databaseName],
+    });
+    const databaseOpenedConnectionValue =
+      databaseOpenedConnectionResult.rows[0].count;
 
-  console.log(databaseOpenedConnectionValue);
+    console.log(databaseOpenedConnectionValue);
 
-  response.status(200).json({
-    updated_at: updatedAt,
-    dependencies: {
-      database: {
-        version: databaseVersionValue,
-        max_connections: parseInt(databaseMaxConnectionsValue),
-        opened_connections: databaseOpenedConnectionValue,
+    response.status(200).json({
+      updated_at: updatedAt,
+      dependencies: {
+        database: {
+          version: databaseVersionValue,
+          max_connections: parseInt(databaseMaxConnectionsValue),
+          opened_connections: databaseOpenedConnectionValue,
+        },
       },
-    },
-  });
+    });
+  } catch (error) {
+    const publicErrorObjetct = new InternalServerError({
+      cause: error,
+    });
+    console.log("\n erro no catch do controller");
+    console.error(publicErrorObjetct);
+
+    response.status(500).json({ publicErrorObjetct });
+  }
 }
 
 export default status;
