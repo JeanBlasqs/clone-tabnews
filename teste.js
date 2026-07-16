@@ -1,7 +1,7 @@
 class ValidationError extends Error {
-  contructor (message){
+  contructor(message) {
     super(message);
-    this.statusCode = 400;
+    this.status_code = 400;
   }
 }
 
