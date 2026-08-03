@@ -40,6 +40,27 @@ export class ServiceError extends Error {
   }
 }
 
+export class ValidationError extends Error {
+  constructor({ cause, message, action } = {}) {
+    super(message || "Um erro de validação ocorreu.", {
+      cause,
+    });
+
+    this.name = "ValidationError";
+    this.action = action || "Ajuste os dados enviados e tente novamente.";
+    this.status_code = 400;
+  }
+
+  toJson() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.status_code,
+    };
+  }
+}
+
 export class MethodNotAllowedError extends Error {
   constructor({ cause } = {}) {
     super("Método não permitido para este endopoint", {
