@@ -60,15 +60,37 @@ export class ValidationError extends Error {
     };
   }
 }
+
 export class NotFoundError extends Error {
   constructor({ cause, message, action } = {}) {
-    super(message || "Não foi possível encontrar esse recurso no sistema.", {
+    super(message || "O recurso não foi encontrado.", {
       cause,
     });
 
     this.name = "NotFoundError";
-    this.action = action || "Verifique os parâmetros.";
+    this.action = action || "Verifique os dados enviados e tente novamente.";
     this.status_code = 404;
+  }
+
+  toJson() {
+    return {
+      name: this.name,
+      message: this.message,
+      action: this.action,
+      status_code: this.status_code,
+    };
+  }
+}
+
+export class UnathourizedError extends Error {
+  constructor({ cause, message, action } = {}) {
+    super(message || "Usuário não autenticado", {
+      cause,
+    });
+
+    this.name = "UnathourizedError";
+    this.action = action || "Faça o login novamente o login para continuar.";
+    this.status_code = 401;
   }
 
   toJson() {
