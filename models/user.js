@@ -3,7 +3,6 @@ import password from "models/password.js";
 import {
   ValidationError,
   NotFoundError,
-  UnathourizedError,
 } from "infra/errors.js";
 
 async function findOneByUsername(username) {
@@ -30,6 +29,37 @@ async function findOneByUsername(username) {
       throw new NotFoundError({
         message: "O usuário não foi encontrado no sistema",
         action: "Verifique o username se foi digitado corretamente",
+      });
+    }
+
+    return results.rows[0];
+  }
+}
+
+async function findOneById(id) {
+  const userFound = await runSelectQuery(id);
+
+  return userFound;
+
+  async function runSelectQuery(id) {
+    const results = await database.query({
+      text: `
+        SELECT 
+          *
+        FROM
+          users
+        WHERE
+          id = $1
+        LIMIT 
+          1
+        ;`,
+      values: [id],
+    });
+
+    if (results.rowCount === 0) {
+      throw new NotFoundError({
+        message: "O id não foi encontrado no sistema",
+        action: "Verifique o id se foi digitado corretamente",
       });
     }
 
@@ -192,6 +222,7 @@ async function hashPasswordInObject(userInputValues) {
 
 const user = {
   create,
+  findOneById,
   findOneByUsername,
   findOneByEmail,
   update,
