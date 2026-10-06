@@ -243,7 +243,7 @@ async function setFeatures(userId, features) {
       values: [userId, features],
     });
 
-    return results[0];
+    return results.rows[0];
   }
 }
 const user = {
