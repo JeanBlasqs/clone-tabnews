@@ -44,7 +44,6 @@ describe("GET to /api/v1/user", () => {
           "create:user",
           "update:user",
         ],
-        password: createdUser.password,
         created_at: createdUser.created_at.toISOString(),
         updated_at: activatedUser.updated_at.toISOString(),
       });
@@ -156,6 +155,7 @@ describe("GET to /api/v1/user", () => {
       expect(response.status).toBe(200);
     });
   });
+  
   describe("Anonymous user", () => {
     test("Retrieving the endpoint'", async () => {
       const response = await fetch("http://localhost:3000/api/v1/user");

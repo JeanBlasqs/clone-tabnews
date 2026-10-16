@@ -31,9 +31,7 @@ describe("POST to /api/v1/users", () => {
       expect(responseBody).toEqual({
         id: responseBody.id,
         username: "jean",
-        email: "jean@blasques.com",
         features: ["read:activation_token"],
-        password: responseBody.password,
         created_at: responseBody.created_at,
         updated_at: responseBody.updated_at,
       });
@@ -160,9 +158,7 @@ describe("POST to /api/v1/users", () => {
       expect(user2ResponseBody).toEqual({
         id: user2ResponseBody.id,
         username: "jeanUnique123",
-        email: "jean.unique123@blasques.com",
         features: ["read:activation_token"],
-        password: user2ResponseBody.password,
         created_at: user2ResponseBody.created_at,
         updated_at: user2ResponseBody.updated_at,
       });
