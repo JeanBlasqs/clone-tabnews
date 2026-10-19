@@ -93,7 +93,7 @@ function filterOutput(user, feature, resource) {
       created_at: resource.created_at,
       updated_at: resource.updated_at,
       expires_at: resource.expires_at,
-      user_at: resource.user_at,
+      used_at: resource.used_at,
     }
   }
 

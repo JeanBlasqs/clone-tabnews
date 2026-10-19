@@ -76,6 +76,7 @@ describe("Use case: Registration Flow (all sucessful)", () => {
     expect(activationResponse.status).toBe(200);
 
     const activationResponseBody = await activationResponse.json();
+console.log(activationResponseBody);
 
     expect(Date.parse(activationResponseBody.used_at)).not.toBeNaN();
 
