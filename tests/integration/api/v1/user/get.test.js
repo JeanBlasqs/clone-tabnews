@@ -140,7 +140,7 @@ describe("GET to /api/v1/user", () => {
         username: "UserWithAlmostExpiredSession",
       });
 
-      const activatedUser = await orchestrator.activateUser(createdUser);
+      await orchestrator.activateUser(createdUser);
 
       const sessionObject = await orchestrator.createSession(createdUser.id);
 
