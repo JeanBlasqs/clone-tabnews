@@ -4,7 +4,6 @@ import user from "models/user.js";
 import activation from "models/activation.js";
 import authorization from "models/authorization.js";
 
-
 const router = createRouter();
 
 router.use(controller.injectAnonymousOrUser);
@@ -20,8 +19,11 @@ async function postHandler(request, response) {
   const activationToken = await activation.create(newUser.id);
   await activation.sendEmailToUser(newUser, activationToken);
 
-  const secureOutputValues = authorization.filterOutput(userTryingToPost, "read:user", newUser);
-
+  const secureOutputValues = authorization.filterOutput(
+    userTryingToPost,
+    "read:user",
+    newUser,
+  );
 
   return response.status(201).json(secureOutputValues);
 }

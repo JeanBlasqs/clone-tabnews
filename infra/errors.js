@@ -111,7 +111,8 @@ export class ForbiddenError extends Error {
     });
 
     this.name = "ForbiddenError";
-    this.action = action || "Verifique as features necessárias antes de continuar";
+    this.action =
+      action || "Verifique as features necessárias antes de continuar";
     this.status_code = 403;
   }
 

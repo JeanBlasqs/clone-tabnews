@@ -20,8 +20,8 @@ describe("GET to /api/v1/migrations", () => {
         action: 'Verifique se o seu usuário possui a feature "read:migration"',
         status_code: 403,
       });
-      });
     });
+  });
 
   describe("Default user", () => {
     test("Retrieving pending migrations", async () => {
@@ -44,8 +44,8 @@ describe("GET to /api/v1/migrations", () => {
         action: 'Verifique se o seu usuário possui a feature "read:migration"',
         status_code: 403,
       });
-      });
     });
+  });
 
   describe("Privileged user", () => {
     test("With `read:migration`", async () => {
@@ -64,7 +64,6 @@ describe("GET to /api/v1/migrations", () => {
       const responseBody = await response.json();
 
       expect(Array.isArray(responseBody)).toBe(true);
-      });
     });
+  });
 });
-

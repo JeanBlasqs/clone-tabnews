@@ -16,8 +16,12 @@ async function getHandler(request, response) {
   const userTryingToGet = request.context.user;
   const username = request.query.username;
   const userFound = await user.findOneByUsername(username);
-  
-  const secureOutputValues = authorization.filterOutput(userTryingToGet, "read:user", userFound);
+
+  const secureOutputValues = authorization.filterOutput(
+    userTryingToGet,
+    "read:user",
+    userFound,
+  );
   return response.status(200).json(secureOutputValues);
 }
 
@@ -41,7 +45,11 @@ async function patchHandler(request, response) {
 
   const updatedUser = await user.update(username, userInputValues);
 
-  const secureOutputValues = authorization.filterOutput(userTryingToPatch, "read:user", updatedUser);
+  const secureOutputValues = authorization.filterOutput(
+    userTryingToPatch,
+    "read:user",
+    updatedUser,
+  );
 
   return response.status(200).json(secureOutputValues);
 }

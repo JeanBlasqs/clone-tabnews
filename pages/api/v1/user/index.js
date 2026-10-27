@@ -4,7 +4,6 @@ import user from "models/user.js";
 import session from "models/session";
 import authorization from "models/authorization.js";
 
-
 const router = createRouter();
 
 router.use(controller.injectAnonymousOrUser);
@@ -24,7 +23,11 @@ async function getHandler(request, response) {
 
   response.setHeader("Cache-Control", "no-store, max-age=0, must-revalidate");
 
-  const secureOutputValues = authorization.filterOutput(userTryingToGet, "read:user:self", userFound);
+  const secureOutputValues = authorization.filterOutput(
+    userTryingToGet,
+    "read:user:self",
+    userFound,
+  );
 
   return response.status(200).json(secureOutputValues);
 }
